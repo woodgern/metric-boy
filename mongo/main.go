@@ -1,4 +1,4 @@
-package Cassandra
+package mongo
 
 import (
   "go.mongodb.org/mongo-driver/mongo"
@@ -8,5 +8,5 @@ import (
 var Client *mongo.Client
 
 func init() {
-  Client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
+  Client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
 }
