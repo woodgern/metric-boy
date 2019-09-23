@@ -1,10 +1,10 @@
 version: '3'
 services:
   metric-boy:
-    build: .
+    image: metric-boy
     ports:
     - "8080:8080"
-    links:
-    - cassandra
-  cassandra:
-    image: cassandra:3.11
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo:3.4.23-xenial

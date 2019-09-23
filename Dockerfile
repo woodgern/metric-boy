@@ -1,11 +1,10 @@
-FROM iflavoursbv/go-gin-alpine:latest
-
-RUN mkdir -p /usr/src/app
+FROM golang:1.13.0-alpine
 
 RUN apk add --update make
+RUN apk add --update git
 
-WORKDIR /usr/src/app
+WORKDIR /go/src/metric-boy
 
-ADD . /usr/src/app
+ADD . /go/src/metric-boy
 
-ENTRYPOINT ["go", "run", "main.go"]
+ENTRYPOINT ["sh", "./docker-entrypoint.sh"]
