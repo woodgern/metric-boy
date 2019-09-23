@@ -8,5 +8,5 @@ import (
 var Client *mongo.Client
 
 func init() {
-  Client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
+  Client, _ = mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
 }
