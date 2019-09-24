@@ -10,7 +10,6 @@ import (
 var Client *mongo.Client
 
 func init() {
-  var err error
   clientOptions := options.Client().ApplyURI("mongodb://mongo:27017")
   Client, err = mongo.Connect(context.TODO(), clientOptions)
 }
