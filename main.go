@@ -2,23 +2,47 @@ package main
 
 import (
   "net/http"
+  "time"
+  "gopkg.in/mgo.v2/bson"
+  "log"
 
   "github.com/gin-gonic/gin"
-  "github.com/woodgern/metric-boy/mongo"
-
-  "go.mongodb.org/mongo-driver/mongo"
-  "go.mongodb.org/mongo-driver/mongo/options"
+  mongoclient "github.com/woodgern/metric-boy/mongo"
 )
+
+type Metric struct {
+  Event string `json:"event" binding:"required"`
+  Body  string `json:"body" binding:"required"`
+}
 
 
 func main() {
   r := gin.New()
-  ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-  err = Client.Ping(ctx, readpref.Primary())
+  if err := mongoclient.Client.Ping(ctx, nil); err != nil {
+    log.Println(err.Error())
+  }
 
-  client.Database("testing").Collection("numbers")
+  collection := mongoclient.Client.Database("metrics").Collection("metrics")
 
   r.GET("/ping", Get_ping)
+  r.POST("/test", func (c *gin.Context) {
+    var requestbody Metric
+    if err := c.ShouldBindJSON(&requestbody); err != nil {
+      c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+      return
+    }
+
+    var bdoc interface{}
+    if err := bson.UnmarshalJSON([]byte(requestbody.Body), &bdoc); err != nil {
+      c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+      return
+    }
+
+    log.Println(&bdoc)
+    collection.InsertOne(ctx, &bdoc)
+
+    c.JSON(http.StatusOK, requestbody)
+  })
   r.Run(":8080")
 }
 

@@ -8,3 +8,5 @@ services:
     - mongo
   mongo:
     image: mongo:3.4.23-xenial
+    ports:
+    - "27017:27017"

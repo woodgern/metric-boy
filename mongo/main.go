@@ -8,5 +8,8 @@ import (
 var Client *mongo.Client
 
 func init() {
-  Client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
+  if clientOptions, err := options.Client().ApplyURI("mongodb://mongo:27017"); err != nil {
+    log.Fatal(err)
+  }
+  Client, err := mongo.Connect(context.TODO(), clientOptions)
 }

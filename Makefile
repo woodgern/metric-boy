@@ -6,3 +6,9 @@ server:
 
 serve:
 	go run main.go
+
+start-cluster:
+	sudo docker-compose up -d
+
+restart-cluster:
+	sudo docker-compose down && sudo docker-compose up -d
