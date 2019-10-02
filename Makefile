@@ -4,7 +4,7 @@ build:
 server: build
 	docker run -p 8080:8080 -it metric-boy bash
 
-up:
+up: build
 	docker-compose up -d
 
 restart:
