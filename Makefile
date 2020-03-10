@@ -7,7 +7,7 @@ help: ## Show all the available make commands
 build: ## build the docker image
 	docker build . --tag metric-boy
 
-server: build ## run the service in the forground
+server: build ## run the service in the foreground
 	docker run -p 8080:8080 -it metric-boy bash
 
 up: build ## run the service in the background
